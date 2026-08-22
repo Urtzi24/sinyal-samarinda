@@ -1,0 +1,55 @@
+{
+  "catatan": "Dibuat oleh dapur/tiles/encode.py. Jangan disunting tangan - buat ulang kalau kontrak berubah.",
+  "contoh": [
+    {
+      "dbm": -140.0,
+      "r": 0,
+      "g": 0
+    },
+    {
+      "dbm": -120.0,
+      "r": 0,
+      "g": 200
+    },
+    {
+      "dbm": -100.0,
+      "r": 1,
+      "g": 144
+    },
+    {
+      "dbm": -85.5,
+      "r": 2,
+      "g": 33
+    },
+    {
+      "dbm": -70.0,
+      "r": 2,
+      "g": 188
+    },
+    {
+      "dbm": -49.6,
+      "r": 3,
+      "g": 136
+    },
+    {
+      "dbm": -30.0,
+      "r": 4,
+      "g": 76
+    },
+    {
+      "dbm": -16.0,
+      "r": 4,
+      "g": 216
+    },
+    {
+      "dbm": 0.0,
+      "r": 5,
+      "g": 120
+    },
+    {
+      "dbm": 40.0,
+      "r": 7,
+      "g": 8
+    }
+  ]
+}

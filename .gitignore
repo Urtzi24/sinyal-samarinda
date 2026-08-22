@@ -1,0 +1,31 @@
+# Data mentah dan hasil hitung — terlalu besar untuk git.
+# Yang masuk git adalah skrip pengunduhnya, bukan datanya.
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+
+# Sistem
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Perkakas bantu dan catatan cara kerja. Keduanya bisa dibuat ulang kapan
+# saja, dan tidak ada gunanya bagi orang yang membuka repo ini — yang mereka
+# cari kodenya.
+#
+# Sebelumnya .specify/ sengaja ikut masuk git, dengan alasan konstitusi dan
+# templatnya berguna. Itu keliru: di dalamnya ada berkas manifes yang isinya
+# daftar berkas di .claude/ — jadi folder yang sudah disembunyikan justru
+# terbaca isinya dari sini. Berkasnya tetap ada di komputer, hanya tidak
+# ikut terunggah.
+.claude/
+.specify/
+docs/MULAI-DARI-SINI.md

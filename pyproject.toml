@@ -1,0 +1,77 @@
+[project]
+name = "sinyal-samarinda"
+version = "0.1.0"
+description = "Dapur perhitungan peta prediksi sinyal Kota Samarinda"
+readme = "README.md"
+requires-python = ">=3.12"
+
+# Pustaka inti dapur. Alasan tiap pilihan ada di PRD bagian 9; dua yang di luar
+# daftar itu (Pillow, pmtiles) dibenarkan di
+# specs/001-signal-prediction-map/research.md bagian 6.
+dependencies = [
+    "numpy",     # jutaan sel dihitung sekaligus, bukan satu per satu
+    "rasterio",  # baca GeoTIFF ketinggian
+    "pyproj",    # derajat bumi <-> meter; menghitung jarak pakai derajat itu salah
+    "pillow",    # tulis berkas PNG per ubin
+    "pmtiles",   # bungkus ubin jadi satu arsip yang bisa dibaca sepotong-sepotong
+    "shapely",   # titik ada di dalam poligon mana; dipakai memotong ubin vektor
+    "mapbox-vector-tile",  # bungkus jalan dan gedung jadi ubin vektor
+    "osmium",    # baca ekstrak OSM 140 MB tanpa memuatnya sekaligus ke ingatan
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dapur"]
+
+# ---------------------------------------------------------------------------
+# ruff — pemeriksa gaya sekaligus pemformat
+# ---------------------------------------------------------------------------
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",      # galat gaya pycodestyle
+    "W",      # peringatan pycodestyle
+    "F",      # pyflakes: nama tak terpakai, impor mati
+    "I",      # urutan impor
+    "N",      # penamaan; nama kode berbahasa Inggris - PRD bagian 9
+    "UP",     # bentuk lama yang sudah ada penggantinya
+    "B",      # jebakan umum bugbear
+    "SIM",    # penyederhanaan yang jelas
+    "RUF",    # aturan khas ruff
+    "PLR2004",  # angka ajaib di perbandingan - menegakkan Prinsip II
+]
+
+# Catatan jujur soal PLR2004: aturan ini cuma menangkap angka telanjang di dalam
+# perbandingan, bukan di semua tempat. Prinsip II menuntut lebih luas dari itu.
+# Jadi linter ini membantu, tapi tidak menggantikan pemeriksaan mata saat menulis
+# rumus - setiap konstanta tetap wajib bernama dan bersumber.
+
+[tool.ruff.lint.per-file-ignores]
+# Tes memang penuh angka acuan yang telanjang - itu justru intinya. Angka di tes
+# adalah nilai terbitan ITU yang dibandingkan dengan keluaran rumus, dan sumbernya
+# ditulis di docstring tesnya.
+"tests/**" = ["PLR2004"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

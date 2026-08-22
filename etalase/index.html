@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Maps Samarinda</title>
+    <meta
+      name="description"
+      content="Peta 3D Kota Samarinda dengan perkiraan kualitas sinyal tiap operator seluler, dihitung dari posisi pemancar dan bentuk permukaan tanah."
+    />
+  </head>
+  <body>
+    <!--
+      Tautan pertama yang bisa difokus, dan sengaja begitu.
+
+      Peta tidak menyampaikan apa pun lewat pembaca layar: isinya kanvas dan
+      warna. Orang yang memakai pembaca layar atau papan ketik saja harus bisa
+      sampai ke tabel dalam satu tekan Tab, bukan setelah menyusuri seluruh
+      kendali peta yang tidak berguna baginya.
+    -->
+    <a class="lewati" href="#tabel-per-kecamatan" id="tautan-lewati">
+      Lompat ke tabel perkiraan per kecamatan
+    </a>
+
+    <!--
+      Peta ditandai region bernama, bukan dibiarkan jadi kanvas telanjang.
+
+      `aria-describedby` menyambungkannya ke keterangan yang menyebut terus
+      terang bahwa isinya tidak terbaca pembaca layar, dan menunjuk ke mana
+      isinya bisa dibaca.
+    -->
+    <div
+      id="peta"
+      role="region"
+      aria-label="Peta 3D Kota Samarinda"
+      aria-describedby="peta-keterangan"
+    ></div>
+    <p id="peta-keterangan" class="hanya-pembaca-layar">
+      Peta ini menyampaikan perkiraan sinyal lewat warna di atas bentang alam
+      tiga dimensi, sehingga isinya tidak bisa dibacakan. Perkiraan yang sama
+      tersedia sebagai tabel per kecamatan lewat tombol
+      &ldquo;Tabel per kecamatan&rdquo;.
+    </p>
+
+    <!--
+      Peta memenuhi layar. Kendali mengambang di atasnya, sekecil mungkin.
+
+      Panel samping yang lama dihapus atas permintaan Ali. Yang tersisa cuma
+      tiga hal yang tanpa itu peta berhenti bisa dipakai: memilih operator,
+      membaca warna, dan mengetahui batasannya.
+    -->
+    <div id="pemilih-operator" class="hud hud--atas"></div>
+    <div id="keterangan-warna" class="hud hud--bawah"></div>
+    <div id="titik-terpilih" class="hud hud--titik" hidden></div>
+
+    <button id="tombol-tabel" class="hud hud--tabel" type="button">Tabel per kecamatan</button>
+
+    <button id="tombol-batasan" class="hud hud--batasan" type="button" aria-expanded="false">
+      Batasan peta ini
+    </button>
+
+    <!--
+      `<dialog>` bawaan peramban, bukan div yang dibuat berperilaku seperti
+      jendela. Yang didapat cuma-cuma dan sulit ditulis ulang dengan benar:
+      fokus terkurung di dalam selama terbuka, Escape menutup, latar belakangnya
+      jadi tidak bisa disentuh papan ketik, dan fokus kembali sendiri ke tombol
+      pemanggilnya saat ditutup.
+    -->
+    <dialog id="tabel-per-kecamatan" class="tabel" aria-labelledby="tabel-judul">
+      <div class="tabel__kepala">
+        <h2 id="tabel-judul" class="tabel__judul">Perkiraan per kecamatan</h2>
+        <button id="tutup-tabel" class="tabel__tutup" type="button">Tutup</button>
+      </div>
+      <!--
+        `tabindex="0"` bukan hiasan: daerah yang menggulir harus bisa difokus,
+        kalau tidak pengguna papan ketik tidak punya cara menggulirnya dan
+        separuh isi tabel jadi tidak terjangkau. WCAG 2.2 SC 2.1.1.
+      -->
+      <div id="isi-tabel" class="tabel__gulir" tabindex="0"></div>
+    </dialog>
+
+    <section id="batasan" class="batasan" hidden>
+      <h2 class="batasan__judul">Yang perlu diketahui</h2>
+      <ul class="batasan__daftar">
+        <li>
+          Ini <strong>prediksi</strong>, bukan pengukuran. Rumusnya tidak tahu
+          ada gedung baru, menara yang sedang mati, atau jaringan yang sedang
+          padat.
+        </li>
+        <li>
+          <strong>Angka dBm-nya ditaksir terlalu kuat</strong>, kemungkinan
+          30&ndash;50 dB. Yang bisa dipercaya adalah perbandingannya: antar
+          operator, dan antar daerah.
+        </li>
+        <li>
+          Tinggi antena, daya pancar, dan frekuensi tiap pemancar
+          <strong>tidak diketahui</strong> &mdash; semuanya diasumsikan sama.
+        </li>
+        <li>
+          Yang dipakai adalah <strong>perkiraan letak sel</strong> dari
+          pengukuran ponsel orang banyak, bukan koordinat menara hasil survei.
+          Bisa meleset puluhan sampai ratusan meter.
+        </li>
+        <li>
+          Data pemancar terbuka tidak pernah lengkap, dan bolongnya tidak merata
+          antar operator. Wilayah berarsir berarti
+          <strong>tidak terdata</strong>, bukan sinyalnya jelek.
+        </li>
+        <li>
+          <strong>Tinggi gedung 3D hampir seluruhnya diasumsikan.</strong> Dari
+          241 ribu gedung Samarinda di OpenStreetMap, cuma 57 yang punya tinggi
+          sebenarnya. Gedung juga <strong>tidak ikut perhitungan sinyal</strong>.
+        </li>
+      </ul>
+    </section>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
